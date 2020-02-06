@@ -1,0 +1,4 @@
+*.fasta.*
+*.fas.*
+.ipynb_checkpoints/
+._*
