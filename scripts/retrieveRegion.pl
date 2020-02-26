@@ -169,7 +169,8 @@ while (my $line = <XML>) {
 			if (!defined $nameFrame{$readName}) {
 				$nameFrame{$readName} = $frame;
 			}elsif ($nameFrame{$readName} != $frame) {
-				die "oppsite orientation: $readName\n";
+				print "oppsite orientation: $readName\n";
+				next;
 			}
 			$startflag = 1;
 			if ($frame == -1) {	# reverse complement
@@ -202,7 +203,8 @@ while (my $line = <XML>) {
 			if (!defined $nameFrame{$readName}) {
 				$nameFrame{$readName} = $frame;
 			}elsif ($nameFrame{$readName} != $frame) {
-				die "oppsite orientation: $readName\n";
+				print "oppsite orientation: $readName\n";
+				next;
 			}
 			$endflag = 1;
 			if ($frame == -1) {	# reverse complement

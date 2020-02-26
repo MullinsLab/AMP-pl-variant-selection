@@ -57,10 +57,22 @@ unless (-e $outpath) {
 
 $sid =~ s/_REN_pe//; # sid is only the sample id
 $sid =~ s/_REN_p//; # sid is only the sample id
-my $infastabasename = basename($infasta);
+my $infastabasename = my $outfastabasename = basename($infasta);
+$outfastabasename =~ s/\.fasta(.*)/\.fasta/;
 $outpath =~ s/\/$//g;
-my $outfasta = "$outpath/$infastabasename";
-copy($infasta, $outfasta) or die "Copy failed: $!\n";
+my $outfasta = "$outpath/$outfastabasename";
+open IN, $infasta or die "couldn't open $infasta: $!\n";
+open OUT, ">", $outfasta or die "couldn't open $outfasta: $!\n";
+while (my $line = <IN>) {
+	unless ($line =~ /^>/) {
+		$line =~ s/\-//g;
+		$line = uc $line;
+	}
+	print OUT $line;
+}
+close IN;
+close OUT;
+
 my $logfile =  my $outXML = $outfasta;
 $logfile =~ s/.fasta/_log.txt/;
 $outXML =~ s/\.fasta/.xml/;
