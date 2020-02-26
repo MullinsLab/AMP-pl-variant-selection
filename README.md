@@ -4,6 +4,9 @@ A collection of perl scripts for selecting _rev-env_ (RE) variants for synthesis
 using a 9.5% AA frequency cutoff for gp160. A consensus _rev_ is appended to this
 sequence.
 
+IMPORTANT: This workflow will only process _rev-env-nef_ (REN) amplicons in its current
+state. Processing for the _gag-pol_ (GP) amplicons may be pursued in the future.
+
 ### Setup and Usage
 
 A snakemake framework is provided for running the scripts. The directory `postproc/`
@@ -22,8 +25,26 @@ postproc/
     ...
 ```
 
-If you're running the [porpid-postproc](https://gitlab.com/MurrellLab/porpid-postproc) workflow you can also just copy over the `postproc/`
-directory.
+The input .fasta files (i.e. `sample-1.fasta`, `sample-2.fasta` above) should be
+single genome nucleotide sequences. Whether the input is aligned or not will not
+affect the result, though you may get a warning message from BLAST regarding gap
+characters. The input sequences can be uppercase or lowercase.
+
+If you're running the [porpid-postproc](https://gitlab.com/MurrellLab/porpid-postproc)
+workflow you can also just copy over the `postproc/` directory. If you run into issues
+targeting the right sequence collections, you can always edit the input line of the
+variant analysis rule in the Snakefile:
+
+```python
+rule analyze_variants:
+    input:
+        "postproc/{dataset}/{sample}/{sample}.fasta" #add porpid_postproc() here if running subworkflow
+    params:
+        p = variant_params
+...
+```
+
+Just include your suffix of choice after the last `{sample}` variable.
 
 Next, specify what samples you want to run in the `config.yaml` file, i.e
 
