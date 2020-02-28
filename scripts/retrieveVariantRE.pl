@@ -189,7 +189,7 @@ foreach my $variant (@variants) {
 			last;
 		}
 	}
-	$conscodon =~ s/\-//;
+	$conscodon =~ s/\-//g;
 	my $conscodonlen = length $conscodon;
 	if ($conscodonlen % 3 == 0) { # in frame
 		my @nas = split //, $conscodon;
@@ -201,7 +201,7 @@ foreach my $variant (@variants) {
 			}
 		}
 	}else {
-		die "rev1 out of frame\n";
+		die "rev1 out of frame: $conscodon, $conscodonlen\n";
 	}
 	my $variantSynthesisFile = $REfile;
 	$variantSynthesisFile =~ s/_RE_NT_V/_RE_pb/;
