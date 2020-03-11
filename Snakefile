@@ -31,14 +31,25 @@ def variant_params(wc):
 
 rule all:
     input:
-        expand("variant_analysis/{dataset}/{sample}/{sample}_log.txt", zip, dataset = DATASETS, sample = SAMPLES)
+        expand("minor_variant_analysis/{dataset}/{sample}_synth.fasta", zip, dataset = DATASETS, sample = SAMPLES)
 
 rule analyze_variants:
     input:
-        "postproc/{dataset}/{sample}/{sample}.fasta" #add porpid_postproc() here if running subworkflow
+        "postproc/{dataset}/{sample}/{sample}.fasta.mafft.fa" #add porpid_postproc() here if running subworkflow
     params:
         p = variant_params
     output:
-        "variant_analysis/{dataset}/{sample}/{sample}_log.txt"
+        directory("variant_analysis/{dataset}/{sample}")
     shell:
         "perl scripts/runProcess.pl -sid {wildcards.sample} -in {input} -envref {params[p][ref]} -rs {params[p][start]} -re {params[p][end]} -outpath variant_analysis/{wildcards.dataset}/{wildcards.sample}/ -blast {params[p][blast]}"
+
+rule minor_variant_analysis:
+    input:
+        "variant_analysis/{dataset}/{sample}",
+        "postproc/{dataset}/{sample}/{sample}.fasta.mafft.fa"
+    params:
+        SID = lambda wc: wc.sample
+    output:
+        "minor_variant_analysis/{dataset}/{sample}_synth.fasta"
+    script:
+        "scripts/minor-variant-analysis.jl"
