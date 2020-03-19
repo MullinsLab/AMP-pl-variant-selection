@@ -31,7 +31,7 @@ def variant_params(wc):
 
 rule all:
     input:
-        expand("minor_variant_analysis/{dataset}/{sample}_synth.fasta", zip, dataset = DATASETS, sample = SAMPLES)
+        expand("select_variants/{dataset}/{sample}_select_var.fasta", zip, dataset = DATASETS, sample = SAMPLES)
 
 rule analyze_variants:
     input:
@@ -43,13 +43,13 @@ rule analyze_variants:
     shell:
         "perl scripts/runProcess.pl -sid {wildcards.sample} -in {input} -envref {params[p][ref]} -rs {params[p][start]} -re {params[p][end]} -outpath variant_analysis/{wildcards.dataset}/{wildcards.sample}/ -blast {params[p][blast]}"
 
-rule minor_variant_analysis:
+rule select_variants:
     input:
         "variant_analysis/{dataset}/{sample}",
         "postproc/{dataset}/{sample}/{sample}.fasta.mafft.fa"
     params:
         SID = lambda wc: wc.sample
     output:
-        "minor_variant_analysis/{dataset}/{sample}_synth.fasta"
+        "select_variants/{dataset}/{sample}_select_var.fasta"
     script:
-        "scripts/minor-variant-analysis.jl"
+        "scripts/select-variants.jl"
