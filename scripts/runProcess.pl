@@ -94,16 +94,20 @@ $ntfile =~ s/_REN_pe.fasta/_env_pe_NT.fasta/;
 $ntfile =~ s/_REN_pe_e.fasta/_env_pe_e_NT.fasta/;
 $ntfile =~ s/_REN_p.fasta/_env_p_NT.fasta/;
 $ntfile =~ s/_REN_e.fasta/_env_e_NT.fasta/;
+$ntfile =~ s/_REN_pbsga.fasta/_env_pbsga_NT.fasta/;
 $aafile =~ s/_REN_pe.fasta/_env_pe_AA.fasta/;
 $aafile =~ s/_REN_pe_e.fasta/_env_pe_e_AA.fasta/;
 $aafile =~ s/_REN_p.fasta/_env_p_AA.fasta/;
 $aafile =~ s/_REN_e.fasta/_env_e_AA.fasta/;
+$aafile =~ s/_REN_pbsga.fasta/_env_pbsga_AA.fasta/;
 $ntfile =~ s/_GP_pe.fasta/_gag_pe_NT.fasta/;
 $ntfile =~ s/_GP_p.fasta/_gag_p_NT.fasta/;
 $ntfile =~ s/_GP_e.fasta/_gag_e_NT.fasta/;
+$ntfile =~ s/_GP_pbsga.fasta/_gag_pbsga_NT.fasta/;
 $aafile =~ s/_GP_pe.fasta/_gag_pe_AA.fasta/;
 $aafile =~ s/_GP_p.fasta/_gag_p_AA.fasta/;
 $aafile =~ s/_GP_e.fasta/_gag_e_AA.fasta/;
+$aafile =~ s/_GP_pbsga.fasta/_gag_pbsga_AA.fasta/;
 print "\n... calculating nucleotide sequence variants ...\n";
 $rv = system("$scripts/uniqueReads.pl -sid $sid -in $ntfile -type NA >> $logfile");
 unless ($rv == 0) {
@@ -307,6 +311,7 @@ $RENTfiles =~ s/_env_pe_NT\.fasta/_RE_NT_V\*/;
 $RENTfiles =~ s/_env_p_NT\.fasta/_RE_NT_V\*/;
 $RENTfiles =~ s/_env_pe_e_NT\.fasta/_RE_NT_V\*/;
 $RENTfiles =~ s/_env_e_NT\.fasta/_RE_NT_V\*/;
+$RENTfiles =~ s/_env_pbsga_NT\.fasta/_RE_NT_V\*/;
 for my $file (glob $RENTfiles) {
     move ($file, $opidir) or die $!;
     unlink $file;
