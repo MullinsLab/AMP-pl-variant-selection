@@ -55,8 +55,9 @@ unless (-e $outpath) {
 	mkdir $outpath;
 }
 
-$sid =~ s/_REN_pe//; # sid is only the sample id
-$sid =~ s/_REN_p//; # sid is only the sample id
+$sid =~ s/_REN_pbsga//; #sid is only the sample id
+$sid =~ s/_REN_pblib//; # sid is only the sample id
+print $sid;
 my $infastabasename = my $outfastabasename = basename($infasta);
 $outfastabasename =~ s/\.fasta(.*)/\.fasta/;
 $outpath =~ s/\/$//g;
