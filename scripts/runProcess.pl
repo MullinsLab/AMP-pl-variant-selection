@@ -16,7 +16,7 @@ my %option = (
 	'rs'      => 256,
 	're'      => 2826,
 	'scripts' => 'scripts/',
-	'blast'   => '/usr/local/bin',
+	'blast'   => './Blast/Linux/bin',
 	'h'       => '',
 );
 

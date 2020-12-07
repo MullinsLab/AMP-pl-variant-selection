@@ -1,5 +1,5 @@
 configfile: "config.yaml"
-BLAST = "/usr/local/bin" #configure path to blast executable
+BLAST = "./Blast/Linux/bin" #configure path to blast executable
 DATASETS = [d for d in config for s in config[d]]
 SAMPLES = [s for d in config for s in config[d]]
 
@@ -35,7 +35,7 @@ rule all:
 
 rule analyze_variants:
     input:
-        "postproc/{dataset}/{sample}/{sample}.fasta.mafft.fa" #add porpid_postproc() here if running subworkflow
+        "postproc/{dataset}/{sample}/{sample}.fasta" #add porpid_postproc() here if running subworkflow
     params:
         p = variant_params
     output:
@@ -46,7 +46,7 @@ rule analyze_variants:
 rule select_variants:
     input:
         "variant_analysis/{dataset}/{sample}",
-        "postproc/{dataset}/{sample}/{sample}.fasta.mafft.fa"
+        "postproc/{dataset}/{sample}/{sample}.fasta"
     params:
         SID = lambda wc: wc.sample
     output:
